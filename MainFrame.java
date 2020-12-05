@@ -314,10 +314,11 @@ public class Main {
     }
 
     public static int[] movimientoMaquina() {
-        ArrayList<int[]> posicionesTablero = new ArrayList<int[]>();
-        int datosPosicionTablero[] = new int[2];
+        ArrayList<String> posicionesTablero = new ArrayList<String>();
+        //int datosPosicionTablero[] = new int[2];
         String[][] tablero = copiarArray(tableroTicTacToe);
         String jugador = jugadorTurno();//Retorna 'x' o 'o' 
+        String coordenadasTablero;
         int filaJ = -1, columnaI = -1;
         int valor = Integer.MIN_VALUE;
         int auxiliar;
@@ -327,37 +328,53 @@ public class Main {
                 if (elemento.equals("-")) {
                     tablero[j][i] = jugador;
                     auxiliar = minimo(tablero, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                    System.out.println("J: " + j + ", I: " + i + ", Max: " + auxiliar + ", Valor: " + valor);
-                    
-                    if (auxiliar > valor) {
-                        posicionesTablero.clear();
-                        datosPosicionTablero[0] = j;
-                        datosPosicionTablero[1] = i;
-                        posicionesTablero.add(datosPosicionTablero);
+                    //System.out.println("J: " + j + ", I: " + i + ", Max: " + auxiliar + ", Valor: " + valor);
 
+                    if (auxiliar > valor) {
+
+                        posicionesTablero.clear();
+                        coordenadasTablero = j + "," + i;
+                        //datosPosicionTablero[0] = j;
+                        //datosPosicionTablero[1] = i;
+                        posicionesTablero.add(coordenadasTablero);
+                        coordenadasTablero="";
                         valor = auxiliar;
                         filaJ = j;
                         columnaI = i;
-                        System.out.println("Maximo");
-                        System.out.println("J: " + j + ", I: " + i + ", Max: " + valor + ", Valor: " + auxiliar);
+                        //System.out.println("Maximo");
+                        //System.out.println("J: " + j + ", I: " + i + ", Max: " + valor + ", Valor: " + auxiliar);
                     } else {
                         if (auxiliar == valor) {
-                            System.out.println("Maximo igual");
-                            datosPosicionTablero[0] = j;
-                            datosPosicionTablero[1] = i;
-                            posicionesTablero.add(datosPosicionTablero);
+                            //System.out.println("Maximo igual");
+                            //posicionesTablero.clear();
+                            coordenadasTablero = j + "," + i;
+                            posicionesTablero.add(coordenadasTablero);
+                            coordenadasTablero="";
                         }
                     }
-                    imprimirTablero(tablero);
+                    //imprimirTablero(tablero);
                     tablero[j][i] = "-";
                 }
             }
         }
+        //System.out.println(posicionesTablero.size()+"--");
         if (posicionesTablero.size() > 0) {
-            int numero = ((int) (Math.random() * posicionesTablero.size() - 1) + 1);
-            datosPosicionTablero = posicionesTablero.get(numero-1);
-            filaJ = datosPosicionTablero[0];
-            columnaI = datosPosicionTablero[1];
+            int numero = (int) (Math.random() * posicionesTablero.size());
+            //int numero = (int) (Math.random()*posicionesTablero.size()+0);
+            //int numero = ((int) (Math.random() * posicionesTablero.size() - 1) + 1);
+            //System.out.println("N.A: " + (numero) + " = TamOpc: " + posicionesTablero.size());
+            
+            String coordenadas=posicionesTablero.get(numero);
+            String c="";
+            //System.out.println("///////////////////////////////");
+            for (int i = 0; i < posicionesTablero.size(); i++) {
+                c+=posicionesTablero.get(i)+"\n";
+            }
+            //System.out.println(c);
+            //System.out.println("///////////////////////////////");
+            filaJ = Integer.parseInt(coordenadas.charAt(0)+"");
+            columnaI = Integer.parseInt(coordenadas.charAt(2)+"");
+            //System.out.println("N.A: " + (numero) + " = TamOpc: " + posicionesTablero.size()+" - "+filaJ+","+columnaI+" - "+coordenadas);
         }
 
         tableroTicTacToe[filaJ][columnaI] = jugador;
@@ -403,7 +420,7 @@ public class Main {
         }
         String jugador = jugadorTurno();//Retorna 'x' o 'o' 
         String jugadorAux;
-        if (jugador.equals("X")) { 
+        if (jugador.equals("X")) {
             jugadorAux = "0";
         } else {
             jugadorAux = "X";
@@ -427,12 +444,12 @@ public class Main {
 
     public static int puntos(String[][] tablero) {
         int utilidad = 0;
-        if(turno==1){
-             utilidad = utilidad(tablero, "X") - utilidad(tablero, "O");
-        }else{
+        if (turno == 1) {
+            utilidad = utilidad(tablero, "X") - utilidad(tablero, "O");
+        } else {
             utilidad = utilidad(tablero, "O") - utilidad(tablero, "X");
         }
-        
+
         return utilidad;
     }
 
@@ -568,6 +585,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            //int numero = (int) (Math.random()*6+0);
+            int numero = (int) (Math.random() * 6);
+            System.out.println(numero);
+        }
+
         /*int maximo = Integer.MIN_VALUE;
         int maximo2 = Integer.MAX_VALUE;
         System.out.println(maximo);
